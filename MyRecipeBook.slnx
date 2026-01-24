@@ -6,6 +6,9 @@
     <Project Path="src/Backend/MyRecipeBook.Domain/MyRecipeBook.Domain/MyRecipeBook.Domain.csproj" Id="98916c7d-3805-4518-8384-47ca11e55043" />
     <Project Path="src/Backend/MyRecipeBook.Infrastructure/MyRecipeBook.Infrastructure.csproj" Id="e58add93-007e-4c5a-b07c-323c28be8a16" />
   </Folder>
-  <Folder Name="/src/Shared/" />
+  <Folder Name="/src/Shared/">
+    <Project Path="src/Shared/MyRecipeBook.Communication/MyRecipeBook.Communication.csproj" Id="1243deda-b3e3-4ae4-985a-ec65d7bc34c0" />
+    <Project Path="src/Shared/MyRecipeBook.Exception/MyRecipeBook.Exception.csproj" Id="15cef7f8-4eb2-4986-a110-bd5b06909496" />
+  </Folder>
   <Folder Name="/tests/" />
 </Solution>
