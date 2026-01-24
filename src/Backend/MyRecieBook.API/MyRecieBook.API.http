@@ -1,6 +1,10 @@
 @MyRecieBook.API_HostAddress = http://localhost:5101
 
-GET {{MyRecieBook.API_HostAddress}}/weatherforecast/
-Accept: application/json
+### Testar a criação de usuário
+POST {{MyRecieBook.API_HostAddress}}/api/User
+Content-Type: application/json
 
-###
+{
+  "nome": "Gabriel",
+  "email": "gabriel@email.com"
+}
