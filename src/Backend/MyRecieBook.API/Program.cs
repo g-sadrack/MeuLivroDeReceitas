@@ -1,3 +1,5 @@
+using MyRecieBook.API.Filters;
+using MyRecieBook.API.Middleware;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi(); // Nativo do .NET 9
 builder.Services.AddSwaggerGen(); // Pacote Swashbuckle
+
+builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 
 var app = builder.Build();
 
@@ -24,6 +28,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<CultureMiddleware>();
 
 app.UseHttpsRedirection();
 
