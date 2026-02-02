@@ -6,6 +6,6 @@ namespace MyRecipeBook.Communication.Response
 {
     public class ResponseRegisteredUserJson
     {
-        public String Nome { get; set; } = String.Empty;
+        public String Name { get; set; } = String.Empty;
     }
 }
