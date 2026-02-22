@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyRecipeBook.Application.Services.Mappers;
+using MyRecipeBook.Application.UseCases.User.Register;
 using MyRecipeBook.Communication.Request;
 using MyRecipeBook.Communication.Response;
 
@@ -8,10 +10,21 @@ namespace MyRecieBook.API.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
+    private readonly UserMapper userMapper;
+
+    public UserController()
+    {
+        userMapper = new UserMapper();
+    }
+
     [HttpPost]
     [ProducesResponseType(typeof(ResponseRegisteredUserJson), StatusCodes.Status201Created)]
-    public IActionResult Register(RequestRegisterUserJson request)
+    public async Task<IActionResult> Register(
+        [FromServices] RegisterUserUseCase useCase, 
+        [FromBody] RequestRegisterUserJson request)
     {
-        return Created(string.Empty, new { message = "Usuário criado com sucesso!" });
+        var result = await useCase.Execute(request);
+
+        return Created(string.Empty, result);
     }
 }
