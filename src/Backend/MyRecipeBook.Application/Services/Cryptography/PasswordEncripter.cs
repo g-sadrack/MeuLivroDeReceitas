@@ -3,13 +3,13 @@ using System.Text;
 
 namespace MyRecipeBook.Application.Services.Cryptography
 {
-    public class PasswordEncripter
+    public class PasswordEncripter(string additionKey)
     {
-        public static string Encrypt(string password)
-        {
-            var chaveAdicional = "MyRecipeBook2024!";
+        private readonly string _additionKey = additionKey;
 
-            var newPassword = $"{password}{chaveAdicional}";
+        public string Encrypt(string password)
+        {
+            var newPassword = $"{password}{_additionKey}";
 
             var bytes = Encoding.UTF8.GetBytes(newPassword);
             var hashBytes = SHA512.HashData(bytes);

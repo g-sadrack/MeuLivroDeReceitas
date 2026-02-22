@@ -1,48 +1,69 @@
-﻿using MyRecipeBook.Application.Services.Cryptography;
-using MyRecipeBook.Application.Services.Mappers;
+﻿using FluentValidation.Results;
+using MyRecipeBook.Application.Services.Cryptography;
+using MyRecipeBook.Application.Services.Mappers.Interfaces;
 using MyRecipeBook.Communication.Request;
 using MyRecipeBook.Communication.Response;
+using MyRecipeBook.Domain.Repositories;
+using MyRecipeBook.Domain.Repositories.User;
+using MyRecipeBook.Exception;
 using MyRecipeBook.Exception.MyRecipebookException;
 
-namespace MyRecipeBook.Application.UseCases.User.Register
+namespace MyRecipeBook.Application.UseCases.User.Register;
+
+public class RegisterUserUseCase(
+    IUserWriteOnlyRepository writeOnlyRepository,
+    IUserReadOnlyRepository readOnlyRepository,
+    IUnityOfWork unityOfWork,
+    PasswordEncripter passwordEncripter,
+    IUserMapper userMapper) : IRegisterUserUseCase
 {
-    public class RegisterUserUseCase(UserMapper UserMapper)
-    {
 
-        private readonly UserMapper UserMapper = UserMapper;
+    private readonly IUserWriteOnlyRepository _writeOnlyRepository = writeOnlyRepository;
+    private readonly IUserReadOnlyRepository _readOnlyRepository = readOnlyRepository;
+    private readonly IUnityOfWork _unityOfWork = unityOfWork;
+    private readonly IUserMapper _userMapper = userMapper;
+    private readonly PasswordEncripter _passwordEncripter = passwordEncripter;
 
-        public ResponseRegisteredUserJson Execute(RequestRegisterUserJson request)
+    public async Task<ResponseRegisteredUserJson> Execute(RequestRegisterUserJson request) {
+
+        // validar a request 
+        Validate(request);
+
+        // mapear a request em uma entidade
+        var user = _userMapper.ToEntity(request);
+
+        // criptografia da senha
+        user.Password = _passwordEncripter.Encrypt(request.Password);
+
+        // salvar no banco de dados
+        await _writeOnlyRepository.Add(user);
+        await _unityOfWork.Commit();
+
+        return new ResponseRegisteredUserJson
         {
-            
-            // validar a request 
-            Validate(request);
+            Name = request.Name,
+        };
+    }
 
-            // mapear a request em uma entidade
-            var user = UserMapper.ToEntity(request);
+    private async Task Validate(RequestRegisterUserJson request)
+    {
+        var validator = new RegisterUserValidator();
 
-            // criptografia da senha
-            user.Password = PasswordEncripter.Encrypt(request.Password);
+        var result = validator.Validate(request);
 
-            // salvar no banco de dados
+        var emailExists = await _readOnlyRepository.ExistActiveUserWithEmail(request.Email);
 
-            return new ResponseRegisteredUserJson {
-                Name = request.Name,
-            };
+        if (emailExists)
+        {
+            result.Errors.Add(new ValidationFailure( string.Empty, ResourceMessagesException.EMAIL_ALREADY_REGISTERED ) );
         }
 
-        private void Validate(RequestRegisterUserJson request)
+        if (!result.IsValid)
         {
-            var validator = new RegisterUserValidator();
+            var errorMessages = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-            var result = validator.Validate(request);
+            throw new ErrorOnValidationException(errorMessages);
 
-            if (!result.IsValid)
-            {
-                var errorMessages = result.Errors.Select(e => e.ErrorMessage).ToList();
-
-                throw new ErrorOnValidationException(errorMessages);
-
-            }
         }
     }
 }
