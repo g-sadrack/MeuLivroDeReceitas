@@ -2,6 +2,7 @@ using MyRecieBook.API.Filters;
 using MyRecieBook.API.Middleware;
 using MyRecipeBook.Application;
 using MyRecipeBook.Infrastructure;
+using MyRecipeBook.Infrastructure.Migrations;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,4 +43,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+MigrateDatabase();
+
 app.Run();
+
+void MigrateDatabase() {
+
+    var connectionString = builder.Configuration.GetConnectionString("SqlServer");
+
+    DatabaseMigrations.Migrate(connectionString);
+}

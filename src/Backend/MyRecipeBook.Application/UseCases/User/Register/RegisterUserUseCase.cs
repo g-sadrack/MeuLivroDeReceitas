@@ -27,7 +27,7 @@ public class RegisterUserUseCase(
     public async Task<ResponseRegisteredUserJson> Execute(RequestRegisterUserJson request) {
 
         // validar a request 
-        Validate(request);
+        await Validate(request);
 
         // mapear a request em uma entidade
         var user = _userMapper.ToEntity(request);
