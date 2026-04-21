@@ -11,18 +11,12 @@ using MyRecipeBook.Exception.MyRecipebookException;
 namespace MyRecipeBook.Application.UseCases.User.Register;
 
 public class RegisterUserUseCase(
-    IUserWriteOnlyRepository writeOnlyRepository,
-    IUserReadOnlyRepository readOnlyRepository,
-    IUnityOfWork unityOfWork,
-    PasswordEncripter passwordEncripter,
-    IUserMapper userMapper) : IRegisterUserUseCase
+    IUserWriteOnlyRepository _writeOnlyRepository,
+    IUserReadOnlyRepository _readOnlyRepository,
+    IUnityOfWork _unityOfWork,
+    PasswordEncripter _passwordEncripter,
+    IUserMapper _userMapper) : IRegisterUserUseCase
 {
-
-    private readonly IUserWriteOnlyRepository _writeOnlyRepository = writeOnlyRepository;
-    private readonly IUserReadOnlyRepository _readOnlyRepository = readOnlyRepository;
-    private readonly IUnityOfWork _unityOfWork = unityOfWork;
-    private readonly IUserMapper _userMapper = userMapper;
-    private readonly PasswordEncripter _passwordEncripter = passwordEncripter;
 
     public async Task<ResponseRegisteredUserJson> Execute(RequestRegisterUserJson request) {
 

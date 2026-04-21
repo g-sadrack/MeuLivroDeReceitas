@@ -120,6 +120,9 @@
   <data name="EMAIL_ALREADY_REGISTERED" xml:space="preserve">
     <value>Esta dirección de correo electrónico ya está registrada.</value>
   </data>
+  <data name="EMAIL_EMPTY" xml:space="preserve">
+    <value>El E-mail no puede ser nulo.</value>
+  </data>
   <data name="EMAIL_NOT_VALID" xml:space="preserve">
     <value>This is not a valid email format.</value>
   </data>
@@ -128,6 +131,12 @@
   </data>
   <data name="PASSWORD_EMPTY" xml:space="preserve">
     <value>El senha no puede ser nula.</value>
+  </data>
+  <data name="PASSWORD_MAXIMUM_LENGHT" xml:space="preserve">
+    <value>A senha pode ter no máximo 20 dígitos</value>
+  </data>
+  <data name="PASSWORD_MINIMUM_LENGHT" xml:space="preserve">
+    <value>A senha deve ter pelo menos 8 dígitos.</value>
   </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Erro desconhecido</value>

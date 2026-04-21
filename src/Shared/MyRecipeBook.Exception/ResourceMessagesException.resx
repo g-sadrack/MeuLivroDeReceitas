@@ -120,6 +120,9 @@
   <data name="EMAIL_ALREADY_REGISTERED" xml:space="preserve">
     <value>This email address is already registered.</value>
   </data>
+  <data name="EMAIL_EMPTY" xml:space="preserve">
+    <value>Email cant not be empty</value>
+  </data>
   <data name="EMAIL_NOT_VALID" xml:space="preserve">
     <value>This is not a valid email format</value>
   </data>
@@ -128,6 +131,12 @@
   </data>
   <data name="PASSWORD_EMPTY" xml:space="preserve">
     <value>Pasword cant ben null</value>
+  </data>
+  <data name="PASSWORD_MAXIMUM_LENGHT" xml:space="preserve">
+    <value>The password can have a maximum of 20 digits.</value>
+  </data>
+  <data name="PASSWORD_MINIMUM_LENGHT" xml:space="preserve">
+    <value>The password must be at least 8 digits long.</value>
   </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Unknown error</value>
